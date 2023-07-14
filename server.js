@@ -8,6 +8,10 @@ const app = express() // API
 const Book = require("./services/models/book.model")
 const Author = require("./services/models/author.model")
 
+//Middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 const syncTables = () => {
     Author.hasMany(Book);
     Book.belongsTo(Author);
@@ -26,9 +30,6 @@ app.use("/author", AuthorRoutes)
 
 //Configure the Port
 const port = process.env.port
-
-//Middleware
-app.use(express.json())
 
 //Configure Server
 app.listen(port, () => {

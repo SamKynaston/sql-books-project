@@ -1,7 +1,7 @@
 const {DataTypes} = require("sequelize")
 const database = require("../sql")
 
-const Model = database.define("Author", {
+const Model = database.define("Book", {
     bookTitle: {
         type:DataTypes.STRING,
         allowNull:false,
