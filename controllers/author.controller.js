@@ -13,17 +13,10 @@ const addAuthor = async (req, res) => {
 
 const getAuthor = async(req, res) => {
     try {
-        let author = null
-
-        if (req.body.type === "name") {
-            author = await Author.findOne({
-                where: {authorName: req.body.value}
-            })
-        } else if (req.body.type === "id") {
-            author = await Author.findOne({
-                where: {id: req.body.value}
-            })
-        }
+        let author = await Author.findOne({
+            where: {[req.body.type]: req.body.value},
+            include:Book
+        }) || null
 
         res.status(200).json({body:author})
     } catch (err) {
@@ -33,19 +26,11 @@ const getAuthor = async(req, res) => {
 
 const getAuthorAndBooks = async(req, res) => {
     try {
-        let author = null
+        let author = await Author.findOne({
+            where: {[req.body.type]: req.body.value},
+            include:Book
+        }) || null
 
-        if (req.body.type === "name") {
-            author = await Author.findOne({
-                where: {authorName: req.body.value},
-                include:Book
-            })
-        } else if (req.body.type === "id") {
-            author = await Author.findOne({
-                where: {id: req.body.value},
-                include:Book
-            })
-        }
         res.status(200).json({body:author})
     } catch (err) {
         res.status(500).json({body:err.message})

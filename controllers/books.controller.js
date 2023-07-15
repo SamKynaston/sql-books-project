@@ -10,7 +10,19 @@ const getBook = async(req, res) => {
 }
 
 const addBook = async(req, res) => {
+    try {
+        const author = await Author.findOne({
+            where:{[req.body.authorType]: req.body.authorVal}
+        })
 
+        if (!author) {return res.status(500).json({body:"Author was not found"})}
+
+        const newBook = await Book.create(req.body.book)
+
+        res.status(201).json({body:newBook})
+    } catch (err) {
+        res.status(500).json({body:err.message})
+    }
 }
 
 const deleteBook = async(req, res) => {
