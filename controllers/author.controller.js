@@ -14,7 +14,7 @@ const addAuthor = async (req, res) => {
 const getAuthor = async(req, res) => {
     try {
         let author = await Author.findOne({
-            where: {[req.body.type]: req.body.value},
+            where: req.body,
             include:Book
         }) || null
 
