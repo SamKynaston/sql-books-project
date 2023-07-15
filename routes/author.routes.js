@@ -6,5 +6,12 @@ const {addAuthor, getAuthor, getAuthorAndBooks, deleteAuthor} = require("../cont
 
 module.exports = router
 
+//Get
+router.get('/get', getAuthor) //Get Author Only
+router.get('/get/books', getAuthorAndBooks) //Get Author & Books
+
+//Post
 router.post('/create', addAuthor)
+
+//Delete
 router.delete('/delete', deleteAuthor)
