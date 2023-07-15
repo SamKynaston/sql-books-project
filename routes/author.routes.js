@@ -2,7 +2,7 @@ const {Router} = require("express") //Configure Router for App
 const router = Router()
 
 //Controller Functions
-const {addAuthor, getAuthor, getAuthorAndBooks, deleteAuthor} = require("../controllers/author.controllers")
+const {addAuthor, getAuthor, getAuthorAndBooks, deleteAuthor} = require("../controllers/author.controller")
 
 module.exports = router
 
