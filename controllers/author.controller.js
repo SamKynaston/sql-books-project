@@ -5,7 +5,10 @@ const addAuthor = async (req, res) => {
     try {
         const author = await Author.create(req.body)
 
-        res.status(201).json({body:author})
+        res.status(201).json({body:{
+            "name": author.authorName
+        }})
+
     } catch (err) {
         res.status(500).json({body:err.message})
     }
@@ -14,11 +17,16 @@ const addAuthor = async (req, res) => {
 const getAuthor = async(req, res) => {
     try {
         let author = await Author.findOne({
-            where: req.body,
-            include:Book
-        }) || null
+            where: req.body
+        })
 
-        res.status(200).json({body:author})
+        if (!author) {
+            return res.status(404).json({body:{}})
+        }
+
+        return res.status(201).json({body:{
+            "name": author.authorName
+        }})
     } catch (err) {
         res.status(500).json({body:err.message})
     }
@@ -27,11 +35,14 @@ const getAuthor = async(req, res) => {
 const getAuthorAndBooks = async(req, res) => {
     try {
         let author = await Author.findOne({
-            where: {[req.body.type]: req.body.value},
+            where: req.body,
             include:Book
         }) || null
 
-        res.status(200).json({body:author})
+        res.status(201).json({body:{
+            "name": author.authorName,
+            "books": author.Books
+        }})
     } catch (err) {
         res.status(500).json({body:err.message})
     }
