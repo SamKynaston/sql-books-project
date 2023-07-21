@@ -10,6 +10,9 @@ module.exports = router
 router.get('/get', getAuthor) //Get Author Only
 router.get('/get/books', getAuthorAndBooks) //Get Author & Books
 
+//Authenticate
+router.get('/authenticate')
+
 //Post
 router.post('/create', addAuthor)
 
