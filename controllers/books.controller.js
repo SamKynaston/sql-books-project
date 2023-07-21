@@ -35,7 +35,7 @@ const addBook = async(req, res) => {
 
         if (!author) {return res.status(500).json({body:"Author was not found"})}
 
-        req.body["bookAuthor"] = author.id
+        req.body["AuthorId"] = author.id
         const newBook = await Book.create(req.body)
 
         res.status(201).json({body:newBook})
