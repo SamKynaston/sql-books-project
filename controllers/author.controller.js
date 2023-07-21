@@ -7,8 +7,9 @@ const Author = require("../services/models/author.model")
 
 const addAuthor = async (req, res) => {
     try {
+        console.log(true)
         const author = await Author.create(req.body)
-
+        
         res.status(201).json({body:{
             "name": author.authorName
         }})
@@ -65,7 +66,7 @@ const authenticateAuthor = async(req, res) => {
     try {
         const user = await Author.findOne({
             where: {
-                authorName:req.body.username
+                authorName:req.body.authorName
             }
         })
         const token = jwt.sign({id:user.id}, process.env.SECRET)

@@ -5,7 +5,7 @@ const Author = require("../services/models/author.model")
 
 const hashPass = async(req,res,next) => {
     try {
-        req.body.password = await bcrypt.hash(req.body.password,parseInt(process.env.SALT_ROUNDS))
+        req.body.authorPassword = await bcrypt.hash(req.body.authorPassword, parseInt(process.env.SALT_ROUNDS))
         next()
     } catch (err) {
         res.status(500).json({body:err.Message})
@@ -16,14 +16,19 @@ const authenticatePassword = async(req,res,next) => {
     try {
         req.user = await Author.findOne({
             where: {
-                authorName:req.body.username
+                authorName:req.body.authorName
             }
         })
 
-        const password = bcrypt.compare(req.body.password, req.user.password)
-        if (!password) {res.status(401).json({body:"Incorrect User Details"})}
+        if (!req.user) {return res.status(401).json({body:"Incorrect User Details"})}
+
+        const password = bcrypt.compare(req.body.authorPassword, req.user.authorPassword)
+        
+        if (!password) {return res.status(401).json({body:"Incorrect User Details"})}
+        
         next();
     } catch (err) {
+        console.log(err)
         res.status(500).json({body:err.Message})
     }
 }
@@ -41,7 +46,7 @@ const authenticateToken = async(req,res,next) => {
             return res.status(401).json({body:"Improper Authorisation Details"})
         }
 
-        req.user = user
+        req.user = user.dataValues
         next()
     } catch (err) {
         res.status(500).json({body:err.Message})

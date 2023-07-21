@@ -3,7 +3,7 @@ const router = Router()
 
 //Controller Functions
 const {addAuthor, getAuthor, getAuthorAndBooks, deleteAuthor, authenticateAuthor} = require("../controllers/author.controller")
-const {hashPass} = require("../middleware/authentication.middleware")
+const {hashPass, authenticatePassword} = require("../middleware/authentication.middleware")
 
 module.exports = router
 
@@ -12,10 +12,10 @@ router.get('/get', getAuthor) //Get Author Only
 router.get('/get/books', getAuthorAndBooks) //Get Author & Books
 
 //Authenticate
-router.get('/authenticate', hashPass, )
+router.get('/authenticate', authenticatePassword, authenticateAuthor)
 
 //Post
-router.post('/create', addAuthor)
+router.post('/register', hashPass, addAuthor)
 
 //Delete
 router.delete('/delete', deleteAuthor)
