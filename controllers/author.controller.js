@@ -1,5 +1,6 @@
 //Imports
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
 const Book = require("../services/models/book.model")
 const Author = require("../services/models/author.model")
@@ -62,7 +63,15 @@ const deleteAuthor = async(req, res) => {
 
 const authenticateAuthor = async(req, res) => {
     try {
-
+        const user = await Author.findOne({
+            where: {
+                authorName:req.body.username
+            }
+        })
+        const token = jwt.sign({id:user.id}, process.env.SECRET)
+        
+        //Send Token
+        res.status(200).json({body:token})
     } catch (err) {
         res.status(500).json({body:err.message})
     }
@@ -72,5 +81,6 @@ module.exports = {
     addAuthor,
     getAuthor,
     getAuthorAndBooks,
-    deleteAuthor
+    deleteAuthor,
+    authenticateAuthor
 }
