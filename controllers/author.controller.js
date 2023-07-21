@@ -1,3 +1,6 @@
+//Imports
+const jwt = require("jsonwebtoken")
+
 const Book = require("../services/models/book.model")
 const Author = require("../services/models/author.model")
 
@@ -52,6 +55,14 @@ const deleteAuthor = async(req, res) => {
     try {
         await Author.destroy({where: req.body})
         res.status(200).json({body:true})
+    } catch (err) {
+        res.status(500).json({body:err.message})
+    }
+}
+
+const authenticateAuthor = async(req, res) => {
+    try {
+
     } catch (err) {
         res.status(500).json({body:err.message})
     }
