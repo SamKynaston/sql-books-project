@@ -55,7 +55,7 @@ const getAuthorAndBooks = async(req, res) => {
 
 const deleteAuthor = async(req, res) => {
     try {
-        await Author.destroy({where: req.body})
+        await Author.destroy({where: {id:req.user.id}})
         res.status(200).json({body:true})
     } catch (err) {
         res.status(500).json({body:err.message})
